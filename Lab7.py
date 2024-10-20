@@ -28,8 +28,11 @@ class Worker:
         return self.employee_number
 
     def set_office_number(self, num):
-        """Sets the worker's office number."""
-        self.office_number = num
+        """Sets the worker's office number. Validates that the number is between 100 and 500."""
+        if 100 <= num <= 500:
+            self.office_number = num
+            return True
+        return False
 
     def get_office_number(self):
         """Returns the worker's office number."""
@@ -94,9 +97,14 @@ if __name__ == "__main__":
     worker.set_hourly_salary(15)
     worker.set_overtime_salary(22.5)
     worker.set_birthdate(24, 12, 1990)
+    
+    if worker.set_office_number(101):
+        print("Office Number:", worker.get_office_number())
+    else:
+        print("Invalid office number")
+
     print("Employee Name:", worker.get_name())
     print("Employee Number:", worker.get_employee_number())
-    print("Office Number:", worker.get_office_number())
     print("Birthdate:", worker.get_birthdate())
     print("Hourly Salary:", worker.get_hourly_salary())
     print("Overtime Salary:", worker.get_overtime_salary())
