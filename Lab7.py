@@ -8,11 +8,20 @@
 # List specific resources used to complete the assignment: N/A
 
 class Worker:
-    def __init__(self, hours_worked=0, overtime=0):
+    def __init__(self, employee_number=0, hours_worked=0, overtime=0):
+        self.employee_number = employee_number
         self.hours_worked = hours_worked
         self.overtime = overtime
         self.hourly_salary = 0.0
         self.overtime_salary = 0.0
+
+    def set_employee_number(self, num):
+        """Sets the worker's employee number."""
+        self.employee_number = num
+
+    def get_employee_number(self):
+        """Returns the worker's employee number."""
+        return self.employee_number
 
     def set_hourly_salary(self, x):
         """Sets the worker's hourly salary. Returns False if salary is less than zero."""
@@ -43,9 +52,10 @@ class Worker:
 
 # Example usage
 if __name__ == "__main__":
-    worker = Worker(hours_worked=40, overtime=5)
+    worker = Worker(employee_number=1000, hours_worked=40, overtime=5)
     worker.set_hourly_salary(15)
     worker.set_overtime_salary(22.5)
+    print("Employee Number:", worker.get_employee_number())
     print("Hourly Salary:", worker.get_hourly_salary())
     print("Overtime Salary:", worker.get_overtime_salary())
     print("Total Pay:", worker.get_pay())
