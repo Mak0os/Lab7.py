@@ -85,6 +85,13 @@ class Worker:
         """Returns the worker's birthdate in DD/MM/YYYY format."""
         return f'{self.birthdate["day"]:02}/{self.birthdate["month"]:02}/{self.birthdate["year"]}'
 
+    def add_hours(self, hours):
+        """Adds the given number of work hours. Returns False if the input is negative."""
+        if hours < 0:
+            return False
+        self.hours_worked += hours
+        return True
+
     def get_pay(self):
         """Calculates and returns the worker's total pay."""
         total_pay = (self.hours_worked * self.hourly_salary) + (self.overtime * self.overtime_salary)
@@ -98,13 +105,11 @@ if __name__ == "__main__":
     worker.set_overtime_salary(22.5)
     worker.set_birthdate(24, 12, 1990)
     
-    if worker.set_office_number(101):
-        print("Office Number:", worker.get_office_number())
-    else:
-        print("Invalid office number")
+    worker.add_hours(18)  # Adding 18 hours
 
     print("Employee Name:", worker.get_name())
     print("Employee Number:", worker.get_employee_number())
+    print("Office Number:", worker.get_office_number())
     print("Birthdate:", worker.get_birthdate())
     print("Hourly Salary:", worker.get_hourly_salary())
     print("Overtime Salary:", worker.get_overtime_salary())
