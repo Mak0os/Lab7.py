@@ -8,45 +8,84 @@
 # List specific resources used to complete the assignment: N/A
 
 class Worker:
-    def __init__(self, employee_number=0, office_number=0, hours_worked=0, overtime=0):
-        self.employee_number = employee_number
-        self.office_number = office_number
-        self.hours_worked = hours_worked
-        self.overtime = overtime
-        self.hourly_salary = 0.0
-        self.overtime_salary = 0.0
-        self.first_name = ""
-        self.last_name = ""
-        self.birthdate = {"day": 1, "month": 1, "year": 1900}
+    # Constructor (__init__): Initializes all attributes with default values.
+    def __init__(self):
+        self.employee_number = None
+        self.office_number = None
+        self.name = {'first': '', 'last': ''}
+        self.birthdate = {'day': 0, 'month': 0, 'year': 0}
+        self.total_hours_worked = 0
+        self.total_overtime_hours = 0
+        self.hourly_salary = 0.0  # New attribute for hourly salary
+        self.overtime_salary = 0.0  # New attribute for overtime salary
 
-    def set_employee_number(self, num):
-        """Sets the worker's employee number."""
-        self.employee_number = num
+    # Existing methods...
 
+    # get_employee_number(): Returns the worker's employee number.
     def get_employee_number(self):
-        """Returns the worker's employee number."""
         return self.employee_number
 
-    def set_office_number(self, num):
-        """Sets the worker's office number. Validates that the number is between 100 and 500."""
-        if 100 <= num <= 500:
-            self.office_number = num
-            return True
-        return False
+    # set_employee_number(x): Sets the worker's employee number to the given value 'x'.
+    def set_employee_number(self, x):
+        self.employee_number = x
 
+    # get_office_number(): Returns the worker's office number.
     def get_office_number(self):
-        """Returns the worker's office number."""
         return self.office_number
 
+    # set_office_number(x): Sets the office number to the given value 'x'.
+    def set_office_number(self, x):
+        if 100 <= x <= 500:
+            self.office_number = x
+            return True
+        else:
+            return False
+
+    # get_name(): Returns the worker's full name in the format "First Last".
+    def get_name(self):
+        return f"{self.name['first']} {self.name['last']}"
+
+    # set_name(first_name, last_name): Sets the worker's first and last name.
+    def set_name(self, first_name, last_name):
+        self.name['first'] = first_name
+        self.name['last'] = last_name
+
+    # set_birthdate(d, m, y): Sets the worker's birthdate.
+    def set_birthdate(self, d, m, y):
+        if 1 <= m <= 12 and 1 <= d <= 31:
+            self.birthdate['day'] = d
+            self.birthdate['month'] = m
+            self.birthdate['year'] = y
+            return True
+        else:
+            return False
+
+    # get_hours_worked(): Returns the total number of regular hours worked.
+    def get_hours_worked(self):
+        return self.total_hours_worked
+
+    # add_hours(x): Adds 'x' hours to the worker's total hours worked.
+    def add_hours(self, x):
+        if x > 9:
+            self.total_hours_worked += 9
+            self.total_overtime_hours += (x - 9)
+        else:
+            self.total_hours_worked += x
+
+    # get_hours_overtime(): Returns the total number of overtime hours worked.
+    def get_hours_overtime(self):
+        return self.total_overtime_hours
+
+    # New methods for hourly salary and overtime salary
     def set_hourly_salary(self, x):
-        """Sets the worker's hourly salary. Returns False if salary is less than zero."""
+        """Sets the worker’s hourly salary. Returns False if salary is less than zero."""
         if x < 0:
             return False
         self.hourly_salary = x
         return True
 
     def set_overtime_salary(self, x):
-        """Sets the worker's overtime salary. Returns False if salary is less than zero."""
+        """Sets the worker’s overtime salary. Returns False if salary is less than zero."""
         if x < 0:
             return False
         self.overtime_salary = x
@@ -60,57 +99,34 @@ class Worker:
         """Returns the worker's overtime salary."""
         return self.overtime_salary
 
-    def set_name(self, *args):
-        """Sets the worker's name. Handles both full name and first/last name formats."""
-        if len(args) == 1:
-            full_name = args[0].split(" ")
-            self.first_name = full_name[0]
-            self.last_name = full_name[1] if len(full_name) > 1 else ""
-        elif len(args) == 2:
-            self.first_name = args[0]
-            self.last_name = args[1]
-
-    def get_name(self):
-        """Returns the worker's full name."""
-        return f"{self.first_name} {self.last_name}".strip()
-
-    def set_birthdate(self, day, month, year):
-        """Sets the worker's birthdate. Returns False if the date is invalid."""
-        if not (1 <= day <= 31 and 1 <= month <= 12 and year >= 0):
-            return False
-        self.birthdate = {"day": day, "month": month, "year": year}
-        return True
-
-    def get_birthdate(self):
-        """Returns the worker's birthdate in DD/MM/YYYY format."""
-        return f'{self.birthdate["day"]:02}/{self.birthdate["month"]:02}/{self.birthdate["year"]}'
-
-    def add_hours(self, hours):
-        """Adds the given number of work hours. Returns False if the input is negative."""
-        if hours < 0:
-            return False
-        self.hours_worked += hours
-        return True
-
     def get_pay(self):
-        """Calculates and returns the worker's total pay."""
-        total_pay = (self.hours_worked * self.hourly_salary) + (self.overtime * self.overtime_salary)
-        return total_pay
+        """Returns the worker’s total pay based on hours worked and overtime."""
+        return (self.total_hours_worked * self.hourly_salary) + (self.total_overtime_hours * self.overtime_salary)
 
-# Example usage
+# Example usage of the Worker class (for testing purposes):
 if __name__ == "__main__":
-    worker = Worker(employee_number=1000, office_number=359, hours_worked=40, overtime=5)
-    worker.set_name("Bob", "Brown")
-    worker.set_hourly_salary(15)
-    worker.set_overtime_salary(22.5)
-    worker.set_birthdate(24, 12, 1990)
+    worker = Worker()
     
-    worker.add_hours(18)  # Adding 18 hours
+    # Set employee information
+    worker.set_employee_number(12345)
+    worker.set_office_number(250)
+    worker.set_name("John", "Doe")
+    worker.set_birthdate(12, 5, 1990)
 
-    print("Employee Name:", worker.get_name())
+    # Set salaries
+    worker.set_hourly_salary(20)  # $20 per hour
+    worker.set_overtime_salary(30)  # $30 per overtime hour
+
+    # Add hours worked and print results
+    worker.add_hours(12)  # 9 regular hours, 3 overtime
+
+    # Display information
     print("Employee Number:", worker.get_employee_number())
     print("Office Number:", worker.get_office_number())
-    print("Birthdate:", worker.get_birthdate())
+    print("Name:", worker.get_name())
+    print("Birthdate:", worker.birthdate)
     print("Hourly Salary:", worker.get_hourly_salary())
     print("Overtime Salary:", worker.get_overtime_salary())
+    print("Hours Worked:", worker.get_hours_worked())
+    print("Overtime Hours:", worker.get_hours_overtime())
     print("Total Pay:", worker.get_pay())
