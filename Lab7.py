@@ -15,6 +15,8 @@ class Worker:
         self.overtime = overtime
         self.hourly_salary = 0.0
         self.overtime_salary = 0.0
+        self.first_name = ""
+        self.last_name = ""
 
     def set_employee_number(self, num):
         """Sets the worker's employee number."""
@@ -54,6 +56,20 @@ class Worker:
         """Returns the worker's overtime salary."""
         return self.overtime_salary
 
+    def set_name(self, *args):
+        """Sets the worker's name. Handles both full name and first/last name formats."""
+        if len(args) == 1:
+            full_name = args[0].split(" ")
+            self.first_name = full_name[0]
+            self.last_name = full_name[1] if len(full_name) > 1 else ""
+        elif len(args) == 2:
+            self.first_name = args[0]
+            self.last_name = args[1]
+
+    def get_name(self):
+        """Returns the worker's full name."""
+        return f"{self.first_name} {self.last_name}".strip()
+
     def get_pay(self):
         """Calculates and returns the worker's total pay."""
         total_pay = (self.hours_worked * self.hourly_salary) + (self.overtime * self.overtime_salary)
@@ -62,8 +78,10 @@ class Worker:
 # Example usage
 if __name__ == "__main__":
     worker = Worker(employee_number=1000, office_number=359, hours_worked=40, overtime=5)
+    worker.set_name("Bob", "Brown")
     worker.set_hourly_salary(15)
     worker.set_overtime_salary(22.5)
+    print("Employee Name:", worker.get_name())
     print("Employee Number:", worker.get_employee_number())
     print("Office Number:", worker.get_office_number())
     print("Hourly Salary:", worker.get_hourly_salary())
