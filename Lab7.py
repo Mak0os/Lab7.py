@@ -17,6 +17,7 @@ class Worker:
         self.overtime_salary = 0.0
         self.first_name = ""
         self.last_name = ""
+        self.birthdate = {"day": 1, "month": 1, "year": 1900}
 
     def set_employee_number(self, num):
         """Sets the worker's employee number."""
@@ -70,6 +71,17 @@ class Worker:
         """Returns the worker's full name."""
         return f"{self.first_name} {self.last_name}".strip()
 
+    def set_birthdate(self, day, month, year):
+        """Sets the worker's birthdate. Returns False if the date is invalid."""
+        if not (1 <= day <= 31 and 1 <= month <= 12 and year >= 0):
+            return False
+        self.birthdate = {"day": day, "month": month, "year": year}
+        return True
+
+    def get_birthdate(self):
+        """Returns the worker's birthdate in DD/MM/YYYY format."""
+        return f'{self.birthdate["day"]:02}/{self.birthdate["month"]:02}/{self.birthdate["year"]}'
+
     def get_pay(self):
         """Calculates and returns the worker's total pay."""
         total_pay = (self.hours_worked * self.hourly_salary) + (self.overtime * self.overtime_salary)
@@ -81,9 +93,11 @@ if __name__ == "__main__":
     worker.set_name("Bob", "Brown")
     worker.set_hourly_salary(15)
     worker.set_overtime_salary(22.5)
+    worker.set_birthdate(24, 12, 1990)
     print("Employee Name:", worker.get_name())
     print("Employee Number:", worker.get_employee_number())
     print("Office Number:", worker.get_office_number())
+    print("Birthdate:", worker.get_birthdate())
     print("Hourly Salary:", worker.get_hourly_salary())
     print("Overtime Salary:", worker.get_overtime_salary())
     print("Total Pay:", worker.get_pay())
